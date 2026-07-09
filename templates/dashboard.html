@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">
+Welcome {{ request.user.username }}
+</h2>
+
+<div class="card shadow">
+
+    <div class="card-header bg-primary text-white">
+        Available Exams
+    </div>
+
+    <div class="card-body">
+
+        {% if exams %}
+
+            <table class="table table-bordered">
+
+                <tr>
+
+                    <th>Title</th>
+                    <th>Subject</th>
+                    <th>Duration</th>
+                    <th>Total Marks</th>
+                    <th>Action</th>
+
+                </tr>
+
+                {% for exam in exams %}
+
+                <tr>
+
+    <td>{{ exam.title }}</td>
+    <td>{{ exam.subject }}</td>
+    <td>{{ exam.duration }} Minutes</td>
+    <td>{{ exam.total_marks }}</td>
+
+    <td>
+        <a href="{% url 'exam_page' exam.id %}" class="btn btn-primary btn-sm">
+            Start Exam
+        </a>
+    </td>
+
+</tr>
+                {% endfor %}
+
+            </table>
+
+        {% else %}
+
+            <p>No Exams Available.</p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
