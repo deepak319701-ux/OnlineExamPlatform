@@ -212,15 +212,14 @@ def profile(request):
             "form": form
         }
     )
-#==================
-#.  for admin login
-#=============
-    def create_admin(request):
+# ==========================
+# Temporary Admin Creator
+# ==========================
 
-     username = "admin"
+def create_admin(request):
 
+    username = "admin"
     password = "Admin@952336"
-
     email = "admin@example.com"
 
     if User.objects.filter(username=username).exists():
@@ -229,7 +228,7 @@ def profile(request):
     User.objects.create_superuser(
         username=username,
         email=email,
-        password=password
+        password=password,
     )
 
     return HttpResponse("Admin created successfully.")
