@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from exams.models import Exam
 from questions.models import Question
-from datetime import datetime
 
 
 class StudentAnswer(models.Model):
@@ -57,33 +56,6 @@ class Result(models.Model):
     total_marks = models.IntegerField(default=0)
 
     submitted_at = models.DateTimeField(auto_now_add=True)
-
-
-    def save(self, *args, **kwargs):
-
-        if not self.certificate_number:
-
-            year = datetime.now().year
-
-            last_result = Result.objects.order_by("-id").first()
-
-            if (
-                last_result
-                and last_result.certificate_number
-                and "-" in last_result.certificate_number
-            ):
-                try:
-                    last_number = int(
-                        last_result.certificate_number.split("-")[-1]
-                    )
-                except ValueError:
-                    last_number = 0
-            else:
-                last_number = 0
-
-            
-
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return (
