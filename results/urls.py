@@ -15,5 +15,9 @@ urlpatterns = [
         views.result_page,
         name="result_page",
     ),
-
+    path(
+    "leaderboard/",
+    views.leaderboard,
+    name="leaderboard",
+),
 ]

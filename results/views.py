@@ -7,6 +7,7 @@ from .models import StudentAnswer, Result
 
 @login_required
 def my_results(request):
+    
 
     results = Result.objects.filter(
         student=request.user
@@ -17,6 +18,21 @@ def my_results(request):
         "results/my_results.html",
         {
             "results": results
+        }
+    )
+@login_required
+def leaderboard(request):
+
+    leaderboard = Result.objects.select_related(
+        "student",
+        "exam"
+    ).order_by("-score")
+
+    return render(
+        request,
+        "results/leaderboard.html",
+        {
+            "leaderboard": leaderboard
         }
     )
 def result_page(request, exam_id):
