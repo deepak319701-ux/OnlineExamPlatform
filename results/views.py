@@ -2,7 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from exams.models import Exam
 from .models import StudentAnswer, Result
-
+from django.http import HttpResponse
+from .certificate import generate_certificate
 
 
 @login_required
@@ -20,6 +21,45 @@ def my_results(request):
             "results": results
         }
     )
+@login_required
+def download_certificate(request, exam_id):
+
+    exam = get_object_or_404(Exam, id=exam_id)
+
+    result = get_object_or_404(
+        Result,
+        student=request.user,
+        exam=exam
+    )
+
+    # Certificate sirf PASS students download kar sakte hain
+
+    
+    if result.score < exam.passing_marks:
+        return HttpResponse(
+            "Certificate is available only for passed students."
+        )
+
+    percentage = round(
+        (result.score / result.total_marks) * 100,
+        2
+    )
+
+    response = HttpResponse(content_type="application/pdf")
+
+    response["Content-Disposition"] = (
+        f'attachment; filename="{exam.title}_certificate.pdf"'
+    )
+
+    generate_certificate(
+        response,
+        request.user.username,
+        exam.title,
+        result.score,
+        percentage
+    )
+
+    return response
 @login_required
 def leaderboard(request):
 

@@ -20,4 +20,9 @@ urlpatterns = [
     views.leaderboard,
     name="leaderboard",
 ),
+   path(
+    "certificate/<int:exam_id>/",
+    views.download_certificate,
+    name="download_certificate",
+),
 ]

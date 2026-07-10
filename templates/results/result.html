@@ -73,9 +73,21 @@ FAIL
 </tr>
 
 </table>
+{% if status == "PASS" %}
+
+<a href="{% url 'download_certificate' exam.id %}"
+   class="btn btn-success">
+
+    📄 Download Certificate
+
+</a>
+
+{% endif %}
+
 
 <a href="{% url 'dashboard' %}"
 class="btn btn-primary">
+
 
 Back to Dashboard
 

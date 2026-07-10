@@ -29,8 +29,9 @@ My Results
 <th>Exam</th>
 <th>Score</th>
 <th>Total Marks</th>
+<th>Status</th>
+<th>Certificate</th>
 <th>Date</th>
-
 </tr>
 
 </thead>
@@ -46,6 +47,47 @@ My Results
 <td>{{ result.score }}</td>
 
 <td>{{ result.total_marks }}</td>
+
+<td>
+
+{% if result.score >= result.exam.passing_marks %}
+
+<span class="badge bg-success">
+PASS
+</span>
+
+{% else %}
+
+<span class="badge bg-danger">
+FAIL
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+{% if result.score >= result.exam.passing_marks %}
+
+<a href="{% url 'download_certificate' result.exam.id %}"
+class="btn btn-success btn-sm">
+
+📄 Download
+
+</a>
+
+{% else %}
+
+<span class="text-danger">
+
+Not Available
+
+</span>
+
+{% endif %}
+
+</td>
 
 <td>{{ result.submitted_at }}</td>
 

@@ -6,32 +6,25 @@ Dashboard
 
 {% block content %}
 
-<div class="container mt-4">
+<h2 class="mb-4">
+    👋 Welcome {{ request.user.username }}
+</h2>
 
-    <div class="row mb-4">
+<!-- Statistics Cards -->
 
-        <div class="col-md-12">
+<div class="row mb-4">
 
-            <div class="card shadow">
+    <div class="col-md-3 mb-3">
 
-                <div class="card-body">
+        <div class="card shadow border-0 text-center">
 
-                    <h2>Welcome, {{ request.user.username }} 👋</h2>
-                    <a href="{% url 'my_results' %}"
-class="btn btn-success">
+            <div class="card-body">
 
-My Results
-<a href="{% url 'leaderboard' %}" class="btn btn-warning">
-    Leaderboard
-</a>
+                <h5>Total Exams</h5>
 
-</a>
-
-                    <p class="text-muted">
-                        Online Examination Dashboard
-                    </p>
-
-                </div>
+                <h2 class="text-primary">
+                    {{ total_exams }}
+                </h2>
 
             </div>
 
@@ -39,90 +32,172 @@ My Results
 
     </div>
 
-    <div class="card shadow">
+    <div class="col-md-3 mb-3">
 
-        <div class="card-header bg-primary text-white">
+        <div class="card shadow border-0 text-center">
 
-            <h4 class="mb-0">
-                Available Exams
-            </h4>
+            <div class="card-body">
 
-        </div>
+                <h5>Attempted</h5>
 
-        <div class="card-body">
-
-            {% if exams %}
-
-            <table class="table table-bordered table-hover align-middle">
-
-                <thead class="table-dark">
-
-                    <tr>
-
-                        <th>Title</th>
-                        <th>Subject</th>
-                        <th>Duration</th>
-                        <th>Total Marks</th>
-                        <th>Status</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    {% for exam in exams %}
-
-                    <tr>
-
-                        <td>{{ exam.title }}</td>
-
-                        <td>{{ exam.subject }}</td>
-
-                        <td>{{ exam.duration }} Minutes</td>
-
-                        <td>{{ exam.total_marks }}</td>
-
-                        <td>
-
-                            {% if exam.id in attempted %}
-
-                                <button class="btn btn-success btn-sm" disabled>
-                                    ✓ Attempted
-                                </button>
-
-                            {% else %}
-
-                                <a href="{% url 'exam_page' exam.id %}"
-                                   class="btn btn-primary btn-sm">
-
-                                    Start Exam
-
-                                </a>
-
-                            {% endif %}
-
-                        </td>
-
-                    </tr>
-
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
-            {% else %}
-
-            <div class="alert alert-warning">
-
-                No Exams Available.
+                <h2 class="text-success">
+                    {{ attempted_count }}
+                </h2>
 
             </div>
 
-            {% endif %}
+        </div>
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <div class="card shadow border-0 text-center">
+
+            <div class="card-body">
+
+                <h5>Remaining</h5>
+
+                <h2 class="text-warning">
+                    {{ remaining_count }}
+                </h2>
+
+            </div>
 
         </div>
+
+    </div>
+
+    <div class="col-md-3 mb-3">
+
+        <div class="card shadow border-0 text-center">
+
+            <div class="card-body">
+
+                <h5>Certificates</h5>
+
+                <h2 class="text-danger">
+                    {{ certificate_count }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Buttons -->
+
+<div class="mb-4">
+
+    <a href="{% url 'my_results' %}" class="btn btn-success me-2">
+
+        📄 My Results
+
+    </a>
+
+    <a href="{% url 'leaderboard' %}" class="btn btn-warning">
+
+        🏆 Leaderboard
+
+    </a>
+
+</div>
+
+<!-- Exam Table -->
+
+<div class="card shadow">
+
+    <div class="card-header bg-primary text-white">
+
+        <h4 class="mb-0">
+
+            📚 Available Exams
+
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        {% if exams %}
+
+        <table class="table table-bordered table-hover align-middle">
+
+            <thead class="table-light">
+
+                <tr>
+
+                    <th>Title</th>
+
+                    <th>Subject</th>
+
+                    <th>Duration</th>
+
+                    <th>Total Marks</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for exam in exams %}
+
+                <tr>
+
+                    <td>{{ exam.title }}</td>
+
+                    <td>{{ exam.subject }}</td>
+
+                    <td>{{ exam.duration }} Minutes</td>
+
+                    <td>{{ exam.total_marks }}</td>
+
+                    <td>
+
+                        {% if exam.id in attempted %}
+
+                        <button class="btn btn-success btn-sm" disabled>
+
+                            ✅ Completed
+
+                        </button>
+
+                        {% else %}
+
+                        <a href="{% url 'exam_page' exam.id %}"
+                           class="btn btn-primary btn-sm">
+
+                            ▶ Start Exam
+
+                        </a>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="alert alert-warning">
+
+            No Exams Available.
+
+        </div>
+
+        {% endif %}
 
     </div>
 
