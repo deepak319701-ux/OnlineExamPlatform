@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import StudentProfileForm
 from .models import StudentProfile
 from exams.models import Exam
+from results.models import Result
 
 
 
@@ -73,11 +74,16 @@ def dashboard(request):
 
     exams = Exam.objects.filter(is_active=True)
 
+    attempted = Result.objects.filter(
+        student=request.user
+    ).values_list("exam_id", flat=True)
+
     return render(
         request,
         "dashboard.html",
         {
-            "exams": exams
+            "exams": exams,
+            "attempted": attempted,
         }
     )
 

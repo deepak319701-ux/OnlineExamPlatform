@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Exam Result
+Result
 {% endblock %}
 
 {% block content %}
 
-<div class="container">
+<div class="container mt-5">
 
 <div class="card shadow">
 
@@ -22,35 +22,60 @@ Exam Result
 
 <hr>
 
-<h4>Score : {{ score }} / {{ total_marks }}</h4>
+<table class="table table-bordered">
 
-<h5>Correct Answers : {{ correct_answers }}</h5>
+<tr>
+<th>Total Questions</th>
+<td>{{ correct_answers|add:wrong_answers }}</td>
+</tr>
 
-<h5>Wrong Answers : {{ wrong_answers }}</h5>
+<tr>
+<th>Correct Answers</th>
+<td>{{ correct_answers }}</td>
+</tr>
 
-<h5>Percentage : {{ percentage|floatformat:2 }}%</h5>
+<tr>
+<th>Wrong Answers</th>
+<td>{{ wrong_answers }}</td>
+</tr>
 
-<hr>
+<tr>
+<th>Score</th>
+<td>{{ score }} / {{ total_marks }}</td>
+</tr>
+
+<tr>
+<th>Percentage</th>
+<td>{{ percentage }}%</td>
+</tr>
+
+<tr>
+<th>Status</th>
+
+<td>
 
 {% if status == "PASS" %}
 
-<div class="alert alert-success">
-
-<h2>PASS ✅</h2>
-
-</div>
+<span class="badge bg-success">
+PASS
+</span>
 
 {% else %}
 
-<div class="alert alert-danger">
-
-<h2>FAIL ❌</h2>
-
-</div>
+<span class="badge bg-danger">
+FAIL
+</span>
 
 {% endif %}
 
-<a href="{% url 'dashboard' %}" class="btn btn-primary">
+</td>
+
+</tr>
+
+</table>
+
+<a href="{% url 'dashboard' %}"
+class="btn btn-primary">
 
 Back to Dashboard
 
