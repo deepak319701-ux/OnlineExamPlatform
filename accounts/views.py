@@ -11,6 +11,14 @@ from .forms import StudentProfileForm
 from .models import StudentProfile
 
 
+
+#==================
+#.  for admin login
+#=============
+
+from django.contrib.auth.models import User
+from django.http import HttpResponse
+
 # ==========================
 # Home
 # ==========================
@@ -204,3 +212,24 @@ def profile(request):
             "form": form
         }
     )
+#==================
+#.  for admin login
+#=============
+    def create_admin(request):
+
+     username = "admin"
+
+    password = "Admin@952336"
+
+    email = "admin@example.com"
+
+    if User.objects.filter(username=username).exists():
+        return HttpResponse("Admin already exists.")
+
+    User.objects.create_superuser(
+        username=username,
+        email=email,
+        password=password
+    )
+
+    return HttpResponse("Admin created successfully.")
